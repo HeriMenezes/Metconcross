@@ -12,40 +12,33 @@ const toggle   = document.getElementById('navToggle');
 const navLinks = document.getElementById('navLinks');
 const overlay  = document.getElementById('navOverlay');
 
-/** Abre ou fecha o menu mobile */
 function setMenuOpen(open) {
   toggle.classList.toggle('open', open);
   navLinks.classList.toggle('open', open);
   overlay.classList.toggle('open', open);
 
-  // Acessibilidade: estado e rótulo do botão
   toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
   toggle.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
   overlay.setAttribute('aria-hidden', open ? 'false' : 'true');
 
-  // Impede scroll do body enquanto menu está aberto
   document.body.style.overflow = open ? 'hidden' : '';
 }
 
-// Alterna ao clicar no botão hambúrguer / ✕
 toggle.addEventListener('click', () => {
   const isOpen = navLinks.classList.contains('open');
   setMenuOpen(!isOpen);
 });
 
-// Fecha ao clicar no overlay (fora do menu)
 overlay.addEventListener('click', () => setMenuOpen(false));
 
-// Fecha ao selecionar um item do menu
 navLinks.querySelectorAll('a').forEach(link => {
   link.addEventListener('click', () => setMenuOpen(false));
 });
 
-// Fecha ao pressionar Escape
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && navLinks.classList.contains('open')) {
     setMenuOpen(false);
-    toggle.focus(); // Devolve foco ao botão para acessibilidade
+    toggle.focus();
   }
 });
 
@@ -66,7 +59,7 @@ revealEls.forEach((el, i) => {
 
 const WHATSAPP_NUMERO = '5579998015026';
 
-const WHATSAPP_URL = 'https://api.whatsapp.com/message/5H5LGBYKBYNPN1?autoload=1&app_absent=0&utm_source=ig';
+const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMERO}`;
 
 const form = document.getElementById('contatoForm');
 const feedback = document.getElementById('formFeedback');
