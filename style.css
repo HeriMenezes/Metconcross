@@ -128,14 +128,41 @@ h1, h2, h3, h4, .nav__brand, .loader__logo {
 .nav__toggle {
   display: none; flex-direction: column; gap: 5px; background: none;
   border: 0; cursor: pointer; padding: 8px;
+  /* Sempre acima do painel de menu (z-index 99) e do overlay (z-index 98) */
+  position: relative; z-index: 200;
+  border-radius: var(--radius-sm);
+  transition: background .2s var(--ease);
+}
+.nav__toggle:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 3px;
 }
 .nav__toggle span {
   width: 26px; height: 2px; background: var(--white); border-radius: 2px;
   transition: transform .3s var(--ease), opacity .3s;
+  display: block;
 }
 .nav__toggle.open span:nth-child(1){ transform: translateY(7px) rotate(45deg); }
-.nav__toggle.open span:nth-child(2){ opacity: 0; }
+.nav__toggle.open span:nth-child(2){ opacity: 0; transform: scaleX(0); }
 .nav__toggle.open span:nth-child(3){ transform: translateY(-7px) rotate(-45deg); }
+
+/* Overlay escuro atrás do menu — permite fechar ao clicar fora */
+.nav__overlay {
+  display: none;
+  position: fixed; inset: 0; z-index: 97;
+  background: rgba(0, 0, 0, .45);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  opacity: 0;
+  transition: opacity .35s var(--ease);
+  cursor: pointer;
+}
+.nav__overlay.open {
+  display: block;
+  opacity: 1;
+  animation: overlay-in .35s var(--ease) both;
+}
+@keyframes overlay-in { from { opacity: 0; } to { opacity: 1; } }
 
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
@@ -373,10 +400,26 @@ h1, h2, h3, h4, .nav__brand, .loader__logo {
 @media (max-width: 780px) {
   .nav__toggle { display: flex; }
   .nav__links {
-    position: fixed; inset: 0 0 0 auto; width: min(300px, 82vw); height: 100dvh;
-    flex-direction: column; align-items: flex-start; justify-content: center; gap: 22px;
-    background: rgba(15,15,18,.98); backdrop-filter: blur(16px); padding: 40px;
-    transform: translateX(100%); transition: transform .4s var(--ease); z-index: 99;
+    position: fixed;
+    /* Ocupa apenas a lateral direita; não encobre o topo onde fica o toggle */
+    inset: 0 0 0 auto;
+    width: min(300px, 82vw);
+    height: 100dvh;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 22px;
+    background: rgba(15, 15, 18, .98);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    padding: 40px;
+    transform: translateX(100%);
+    transition: transform .4s var(--ease);
+    /* z-index abaixo do toggle (200) e acima do overlay (97) */
+    z-index: 99;
+    /* Garante que nenhum conteúdo do menu ultrapasse o painel */
+    overflow-y: auto;
+    overscroll-behavior: contain;
   }
   .nav__links.open { transform: translateX(0); }
   .nav__links a { font-size: 18px; }

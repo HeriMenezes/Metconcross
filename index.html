@@ -58,10 +58,17 @@
         <a href="#contato" class="nav__cta">Aula experimental</a>
       </nav>
 
-      <button class="nav__toggle" id="navToggle" aria-label="Abrir menu">
-        <span></span><span></span><span></span>
+      <button class="nav__toggle" id="navToggle"
+              aria-label="Abrir menu"
+              aria-expanded="false"
+              aria-controls="navLinks">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
       </button>
     </div>
+    <!-- Overlay: fecha o menu ao clicar fora -->
+    <div class="nav__overlay" id="navOverlay" aria-hidden="true"></div>
   </header>
 
   <section class="hero" id="hero">
